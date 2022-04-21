@@ -1,9 +1,9 @@
 import { useRuntimeConfig } from '#app'
-import contentful from 'contentful'
+import { createClient as createContentfulClient } from 'contentful'
 
 const createClient = () => {
   const $config = useRuntimeConfig()
-  return contentful.createClient({
+  return createContentfulClient({
     space: $config.space,
     accessToken: $config.accessToken,
   })
