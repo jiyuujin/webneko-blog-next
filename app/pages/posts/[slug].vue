@@ -35,15 +35,19 @@
 
       <loaded-markdown :body="currentPost.fields.body" />
 
-      <social-menu
-        :slug-text="currentPost.fields.slug"
-        :title="currentPost.fields.title"
-        :is-vertical="!isVertical"
-      />
+      <template v-if="VIEW_SOCIAL_MENU">
+        <social-menu
+          :slug-text="currentPost.fields.slug"
+          :title="currentPost.fields.title"
+          :is-vertical="!isVertical"
+        />
+      </template>
 
-      <buy-me-a-coffee />
+      <template v-if="VIEW_PAYMENT">
+        <buy-me-a-coffee />
 
-      <stripe-link />
+        <stripe-link />
+      </template>
 
       <div class="latest-article">
         <h2 class="latest-article-title">あわせてよみたい..</h2>
@@ -62,6 +66,7 @@
 <script setup lang="ts">
 import { useAsyncData } from '#app'
 import { fetchPost, fetchPosts } from '~/api/blog'
+import { VIEW_SOCIAL_MENU, VIEW_PAYMENT } from '~/utils/feature'
 import Endpoints from '~/utils/endpoints.constants'
 import { generalOg, twitterOg } from '~/utils/og.constants'
 
