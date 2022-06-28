@@ -27,7 +27,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         env:
-          cache-name: _cache_npm_node14
+          cache-name: _cache_npm_node16
         with:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
@@ -45,7 +45,7 @@ jobs:
 
       - name: Transpile
         run: |
-          npm install
+          npm ci
           npm run build:feeds
           npm run generate
         env:
