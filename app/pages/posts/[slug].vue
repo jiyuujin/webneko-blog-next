@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from '#app'
+import { useAsyncData, useHead } from '#app'
 import { fetchPost, fetchPosts } from '~/api/blog'
 import Endpoints from '~/utils/endpoints.constants'
 import { generalOg, twitterOg } from '~/utils/og.constants'
