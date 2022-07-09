@@ -1,13 +1,14 @@
+import { useRoute } from '#app'
 import dayjs from 'dayjs'
 
-import createContentfulClient from '~/services/contentful'
+import client from '~/services/contentful'
 
 export const PAGE = 20
 export const LATEST_PAGE = 8
 export const ORDER = '-fields.publishDate'
 
-export const fetchPosts = (isLatest?: boolean) => {
-  const $client = createContentfulClient()
+export const useFetchPosts = (isLatest?: boolean) => {
+  const $client = client()
 
   return $client.getEntries({
     content_type: 'blogPost',
@@ -17,8 +18,10 @@ export const fetchPosts = (isLatest?: boolean) => {
   })
 }
 
-export const fetchPost = async (params) => {
-  const $client = createContentfulClient()
+export const useFetchPost = async () => {
+  const route = useRoute()
+
+  const $client = client()
 
   let result: object = {}
   await $client
@@ -27,16 +30,16 @@ export const fetchPost = async (params) => {
       order: ORDER,
     })
     .then((entries) => {
-      if (params.slug) {
+      if (route.params.slug) {
         const currentPost = entries.items.filter((item) => {
-          return item.fields.slug === params.slug
+          return item.fields.slug === route.params.slug
         })
         result = currentPost[0]
       }
 
-      if (params.ym) {
+      if (route.params.ym) {
         result = entries.items.filter((item) => {
-          return dayjs(item.fields.publishDate).format('YYYY-MM').includes(params.ym)
+          return dayjs(item.fields.publishDate).format('YYYY-MM').includes(route.params.ym)
         })
       }
     })
